@@ -1,6 +1,7 @@
 import os
 import json
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
 from pydantic import ValidationError
 from models.model import ValidationResponse, DocumentRequest, ExtractedData
 from ai_extractor import extract_data_with_ai
@@ -16,6 +17,34 @@ app = FastAPI(
 )
 
 # --- API Endpoint ---
+
+@app.get("/", response_class=HTMLResponse)
+async def root():
+    """
+    Welcome endpoint with a link to API docs.
+    """
+    html_content = """
+    <html>
+        <head>
+            <title>Mini Insurance Document Validator</title>
+        </head>
+        <body style="font-family: Arial, sans-serif; text-align:center; padding:50px;">
+            <h1>Welcome to the Mini Insurance Document Validator API!</h1>
+            <p>Click the button below to explore and test the API endpoints:</p>
+            <a href="/docs" style="
+                display:inline-block;
+                padding: 12px 24px;
+                font-size: 18px;
+                color: white;
+                background-color: #4CAF50;
+                text-decoration: none;
+                border-radius: 6px;
+                margin-top: 20px;
+            ">Go to API Docs</a>
+        </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content, status_code=200)
 
 @app.post("/validate", response_model=ValidationResponse)
 async def validate_document(request: DocumentRequest):
