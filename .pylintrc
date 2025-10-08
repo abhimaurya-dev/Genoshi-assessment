@@ -448,6 +448,7 @@ disable=raw-checker-failed,
         C0411,  # wrong-import-order
         C0415,  # import-outside-toplevel
         W0621,  # redefined-outer-name
+        E0401,
 
 
 # Enable the message, report, category or checker with the given id(s). You can

@@ -1,6 +1,6 @@
 from datetime import datetime, date
 from typing import List
-from .models.model import ExtractedData, ValidationResult
+from models.model import ExtractedData, ValidationResult
 
 DATE_FORMAT = "%Y-%m-%d"
 

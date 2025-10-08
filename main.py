@@ -3,9 +3,9 @@ import json
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from pydantic import ValidationError
-from .models.model import ValidationResponse, DocumentRequest, ExtractedData
-from .ai_extractor import extract_data_with_ai
-from .validation import run_all_validations
+from models.model import ValidationResponse, DocumentRequest, ExtractedData
+from ai_extractor import extract_data_with_ai
+from validation import run_all_validations
 
 # --- Configuration ---
 # Use environment variables for API key management
