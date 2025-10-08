@@ -1,6 +1,6 @@
 from datetime import datetime, date
 from typing import List
-from models.model import ExtractedData, ValidationResult
+from .models.model import ExtractedData, ValidationResult
 
 DATE_FORMAT = "%Y-%m-%d"
 
@@ -34,12 +34,12 @@ def rule_date_consistency(data: ExtractedData) -> ValidationResult:
             status="PASS",
             message="Policy end date is after start date.",
         )
-    else:
-        return ValidationResult(
-            rule="Date Consistency",
-            status="FAIL",
-            message="Policy end date cannot be before the start date.",
-        )
+
+    return ValidationResult(
+        rule="Date Consistency",
+        status="FAIL",
+        message="Policy end date cannot be before the start date.",
+    )
 
 
 def rule_value_check(data: ExtractedData) -> ValidationResult:
@@ -55,12 +55,11 @@ def rule_value_check(data: ExtractedData) -> ValidationResult:
             return ValidationResult(
                 rule="Value Check", status="PASS", message="Insured value is valid."
             )
-        else:
-            return ValidationResult(
-                rule="Value Check",
-                status="FAIL",
-                message="Insured value must be a positive number.",
-            )
+        return ValidationResult(
+            rule="Value Check",
+            status="FAIL",
+            message="Insured value must be a positive number.",
+        )
     except Exception:
         return ValidationResult(
             rule="Value Check",
@@ -84,12 +83,11 @@ def rule_vessel_match(data: ExtractedData, valid_vessels: list) -> ValidationRes
             status="PASS",
             message=f"Vessel '{vessel}' is on the approved list.",
         )
-    else:
-        return ValidationResult(
-            rule="Vessel Name Match",
-            status="FAIL",
-            message=f"Vessel '{vessel}' is not on the approved list.",
-        )
+    return ValidationResult(
+        rule="Vessel Name Match",
+        status="FAIL",
+        message=f"Vessel '{vessel}' is not on the approved list.",
+    )
 
 
 def rule_completeness_check(data: ExtractedData) -> ValidationResult:
