@@ -13,10 +13,11 @@ from validation import run_all_validations
 app = FastAPI(
     title="Mini Insurance Document Validator",
     description="An API to validate extracted data from insurance documents using AI.",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 # --- API Endpoint ---
+
 
 @app.get("/", response_class=HTMLResponse)
 async def root():
@@ -46,6 +47,7 @@ async def root():
     """
     return HTMLResponse(content=html_content, status_code=200)
 
+
 @app.post("/validate", response_model=ValidationResponse)
 async def validate_document(request: DocumentRequest):
     """
@@ -62,18 +64,18 @@ async def validate_document(request: DocumentRequest):
         extracted_data = ExtractedData(**raw_extracted_data)
     except ValidationError as e:
         raise HTTPException(
-            status_code=400,
-            detail=f"AI output did not match expected schema: {e}"
+            status_code=400, detail=f"AI output did not match expected schema: {e}"
         )
 
-    VALID_VESSELS_PATH = os.path.join(os.path.dirname(__file__), "provided_assets", "valid_vessels.json")
-    with open(VALID_VESSELS_PATH, "r", encoding='utf-8') as f:
+    VALID_VESSELS_PATH = os.path.join(
+        os.path.dirname(__file__), "provided_assets", "valid_vessels.json"
+    )
+    with open(VALID_VESSELS_PATH, "r", encoding="utf-8") as f:
         VALID_VESSELS = json.load(f)
 
     validation_results = run_all_validations(extracted_data, VALID_VESSELS)
 
     # Return the final, structured response.
     return ValidationResponse(
-        extracted_data=extracted_data,
-        validation_results=validation_results
+        extracted_data=extracted_data, validation_results=validation_results
     )

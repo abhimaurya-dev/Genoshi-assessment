@@ -35,19 +35,19 @@ Here is the document text to parse:
 """
 '''
 
+
 async def extract_data_with_ai(document_text: str) -> Dict[str, Any]:
     """
     Uses a generative AI model to extract structured data from document text.
     """
 
     extract_prompt = EXTRACT_PROMPT_TEMPLATE.format(document_text=document_text)
-    
+
     client = genai.Client(api_key=API_KEY)
 
     try:
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=extract_prompt
+            model="gemini-2.5-flash", contents=extract_prompt
         )
     except Exception as e:
         raise RuntimeError(f"genai.generate() failed: {e}")
@@ -57,12 +57,13 @@ async def extract_data_with_ai(document_text: str) -> Dict[str, Any]:
         raw_text = response.candidates[0].content.parts[0].text
 
         # Remove the triple backticks and optional 'json' language specifier
-        clean_text = re.sub(r"^```json\s*|```$", "", raw_text.strip(), flags=re.MULTILINE)
+        clean_text = re.sub(
+            r"^```json\s*|```$", "", raw_text.strip(), flags=re.MULTILINE
+        )
 
         parsed = json.loads(clean_text)
     except Exception:
         raw_text = str(response)
-
 
     return {
         "policy_number": parsed.get("policy_number"),
