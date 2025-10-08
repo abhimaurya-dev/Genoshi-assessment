@@ -1,14 +1,14 @@
 import os
 import pytest
-from ..ai_extractor import extract_data_with_ai
-from ..validation import run_all_validations
-from ..validation import (
+from ai_extractor import extract_data_with_ai
+from validation import run_all_validations
+from validation import (
     rule_date_consistency,
     rule_value_check,
     rule_vessel_match,
     rule_completeness_check,
 )
-from ..models.model import ExtractedData
+from models.model import ExtractedData
 
 
 def load_sample_file(filename):
